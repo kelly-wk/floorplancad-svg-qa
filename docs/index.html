@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#6657A8">
+  <meta name="description" content="A quality gate that audits units, transforms, and geometry before SVG floor plans become machine-learning labels.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="FloorPlanCAD：SVG形状の品質監査 / FloorPlanCAD: SVG Geometry Quality Audit">
+  <meta property="og:description" content="A quality gate that audits units, transforms, and geometry before SVG floor plans become machine-learning labels.">
+  <meta property="og:url" content="https://kelly-wk.github.io/floorplancad-svg-qa/">
+  <meta property="og:image" content="https://kelly-wk.github.io/floorplancad-svg-qa/social-preview.svg">
+  <title>FloorPlanCAD：SVG形状の品質監査 / FloorPlanCAD: SVG Geometry Quality Audit</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body class="tier-public_case_study" style="--accent:#6657A8;--accent-dark:#252A32;--accent-soft:#ECE9F7;--hero-start:#252A32">
+  <a class="skip-link" href="#content">本文へ / Skip to content</a>
+  <header class="project-hero">
+    <div class="hero-inner">
+      <div class="hero-topline">
+        <div class="eyebrow">
+          <span>AI・機械学習 / AI &amp; Machine Learning</span>
+        </div>
+        <p class="tier-badge"><span lang="ja">公開ケーススタディ</span><span lang="en">Public case study</span></p>
+      </div>
+      <h1><span lang="ja">FloorPlanCAD：SVG形状の品質監査</span><span lang="en">FloorPlanCAD: SVG Geometry Quality Audit</span></h1>
+      <div class="hero-summary">
+        <div class="copy-pair lede"><p lang="ja">SVG図面を機械学習用ラベルへ変換する前に、単位・変換・形状整合性を監査する品質ゲート。</p><p class="translation" lang="en">A quality gate that audits units, transforms, and geometry before SVG floor plans become machine-learning labels.</p></div>
+        <div class="hero-facts">
+          <dl class="project-meta">
+            <div><dt>状態 / Status</dt><dd><span lang="ja">QAプロトタイプ検証済み・MLゲート未通過</span><span lang="en">Validated QA prototype / ML gate blocked</span></dd></div>
+            <div><dt>言語 / Language</dt><dd>Python</dd></div>
+          </dl>
+        </div>
+      </div>
+      <div class="method-block">
+        <p class="method-label">技術スタック / Tech Stack</p>
+        <ul class="method-list" aria-label="Methods"><li>Python</li><li>SVG and XML parsing</li><li>Affine transforms</li><li>Unit conversion</li><li>Geometry QA</li><li>Group-aware splitting</li></ul>
+      </div>
+    </div>
+  </header>
+
+  <main id="content" class="shell">
+    
+    <section aria-labelledby="highlights-title">
+      <div class="section-heading"><p>01</p><h2 id="highlights-title">主なポイント <span lang="en">Highlights</span></h2></div>
+      <div class="highlight-grid"><article class="highlight">
+          <span class="highlight-number" aria-hidden="true">1</span>
+          <div class="copy-pair"><p lang="ja">未対応のSVG構文を黙って近似せず、境界付きパーサーが明示的に記録。</p><p class="translation" lang="en">The bounded parser logs unsupported SVG constructs instead of silently approximating them.</p></div>
+        </article><article class="highlight">
+          <span class="highlight-number" aria-hidden="true">2</span>
+          <div class="copy-pair"><p lang="ja">mm単位を宣言した合成ゴールデンフィクスチャで二重境界形状を検証。</p><p class="translation" lang="en">A synthetic declared-millimeter golden fixture checks double-boundary geometry.</p></div>
+        </article><article class="highlight">
+          <span class="highlight-number" aria-hidden="true">3</span>
+          <div class="copy-pair"><p lang="ja">物理スケール、利用権、ゴールデンセットが揃わない限りラベル生成を停止するMLゲートを定義。</p><p class="translation" lang="en">Defined an ML gate that blocks label generation until physical scale, usage rights, and a golden set are available.</p></div>
+        </article></div>
+    </section>
+
+    <section aria-labelledby="flow-title">
+      <div class="section-heading"><p>02</p><h2 id="flow-title">研究の流れ <span lang="en">Research Flow</span></h2></div>
+      <ol class="flow-grid"><li class="flow-card" data-step="1">
+              <h3><span lang="ja">課題</span><span lang="en">Problem</span></h3>
+              <div class="copy-pair"><p lang="ja">多様なSVG図面を無検証で学習ラベルへ変換すると、単位や座標変換の誤りが教師データへ混入する。</p><p class="translation" lang="en">Converting heterogeneous SVG plans directly into labels can inject unit and transform errors into training data.</p></div>
+            </li><li class="flow-card" data-step="2">
+              <h3><span lang="ja">方法</span><span lang="en">Method</span></h3>
+              <div class="copy-pair"><p lang="ja">XML構造、座標変換、単位、閉曲線、未対応要素を段階的に監査する。</p><p class="translation" lang="en">Audit XML structure, coordinate transforms, units, closed geometry, and unsupported elements in stages.</p></div>
+            </li><li class="flow-card" data-step="3">
+              <h3><span lang="ja">検証</span><span lang="en">Validation</span></h3>
+              <div class="copy-pair"><p lang="ja">既知寸法を持つ合成ゴールデンケースで形状計算と拒否条件を確認する。</p><p class="translation" lang="en">Check geometry calculations and rejection conditions against synthetic golden cases with known dimensions.</p></div>
+            </li><li class="flow-card" data-step="4">
+              <h3><span lang="ja">成果</span><span lang="en">Outcome</span></h3>
+              <div class="copy-pair"><p lang="ja">データ品質を可視化するプロトタイプは成立したが、実図面によるML検証はゲート未通過。</p><p class="translation" lang="en">The data-quality prototype is validated, while real-plan ML validation remains blocked by the release gate.</p></div>
+            </li></ol>
+    </section>
+
+    <section class="limitations" aria-labelledby="limits-title">
+      <div class="section-heading"><p>03</p><h2 id="limits-title">限界と適用範囲 <span lang="en">Limitations &amp; Scope</span></h2></div>
+      <ul><li><div class="copy-pair"><p lang="ja">実図面の壁意味論、U-Net学習、外部図面での性能は未検証。</p><p class="translation" lang="en">Wall semantics on real plans, U-Net training, and performance on external drawings remain unvalidated.</p></div></li></ul>
+    </section>
+
+    <section class="publication" aria-labelledby="publication-title">
+      <div class="section-heading"><p>04</p><h2 id="publication-title">公開範囲 <span lang="en">Publication Boundary</span></h2></div>
+      <div class="publication-panel">
+        <p class="tier-badge"><span lang="ja">公開ケーススタディ</span><span lang="en">Public case study</span></p>
+        <div class="copy-pair"><p lang="ja">合成フィクスチャに基づくQA設計は紹介できるが、実図面と派生結果は公開対象外。</p><p class="translation" lang="en">The synthetic-fixture QA design can be described, but real drawings and derived results are excluded from publication.</p></div>
+      </div>
+      <div class="cta-grid"><a class="cta" href="https://github.com/kelly-wk/floorplancad-svg-qa"><strong lang="ja">リポジトリ</strong><span lang="en">Repository</span><span aria-hidden="true">↗</span></a><a class="cta" href="https://github.com/kelly-wk/floorplancad-svg-qa/blob/main/CASE_STUDY.md"><strong lang="ja">レポート</strong><span lang="en">Report</span><span aria-hidden="true">↗</span></a><span class="cta is-disabled" aria-disabled="true"><strong lang="ja">再現手順</strong><span lang="en">Reproduce</span><small>この公開レベルでは利用できません / Not available at this publication tier</small></span></div>
+    </section>
+  </main>
+
+  <footer>
+    <p><span lang="ja">公開レベルはページ上で常に明示されます。</span> <span lang="en">Publication tier is always shown explicitly.</span></p>
+    <p>kelly-wk · floorplancad-svg-qa</p>
+  </footer>
+</body>
+</html>
